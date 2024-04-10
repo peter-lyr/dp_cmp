@@ -1,11 +1,29 @@
 local M = {}
 
-local B = require 'dp_base'
+local sta, B = pcall(require, 'dp_base')
+
+if not sta then return print('Dp_base is required!', debug.getinfo(1)['source']) end
+
+if B.check_plugins {
+      -- 'git@github.com:peter-lyr/dp_init',
+      'hrsh7th/nvim-cmp',
+      'nvim-lua/plenary.nvim',
+      'L3MON4D3/LuaSnip',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-path',
+      'rafamadriz/friendly-snippets',
+      'saadparwaiz1/cmp_luasnip',
+      'LazyVim/LazyVim',
+    } then
+  return
+end
 
 M.source = B.getsource(debug.getinfo(1)['source'])
 
 require 'luasnip.loaders.from_vscode'.lazy_load()
-require 'luasnip.loaders.from_snipmate'.lazy_load { paths = { B.get_source_dot_dir(M.source,  'snippets'), }, }
+require 'luasnip.loaders.from_snipmate'.lazy_load { paths = { B.get_source_dot_dir(M.source, 'snippets'), }, }
 
 require 'luasnip'.config.setup {
   history = true,
